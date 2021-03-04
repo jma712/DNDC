@@ -1,6 +1,6 @@
 # DNDC
 
-Deconfounding in dynamic networked observational data.
+WSDM '21 paper: Deconfounding with Networked Observational Data in a Dynamic Environment
 
 # Setup
 Python 3.6
