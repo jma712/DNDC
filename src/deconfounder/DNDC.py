@@ -221,11 +221,8 @@ def train(epoch, X_list, adj_time_list, C_list, Y1_true_list, Y0_true_list, idx_
         # compute the pehe and mae of all the time stamps
         pehe_val_list = []
         mae_ate_val_list = []
-        acc_t_val_list = []
         pehe_tst_list = []
         mae_ate_tst_list = []
-        acc_t_tst_list = []
-        acc_t_trn_list = []
 
         if k % 10 == 0:
             for select_t in range(T):
@@ -252,23 +249,17 @@ def train(epoch, X_list, adj_time_list, C_list, Y1_true_list, Y0_true_list, idx_
                 pehe_tst, mae_ate_tst, acc_t_tst = evaluate(y1_pred, y0_pred, y1_true, y0_true, C, ps_pred, idx_train,
                                                             idx_tst)
 
-                acc_t_trn_list.append(acc_t_trn)
                 pehe_val_list.append(pehe_val.item())
                 mae_ate_val_list.append(mae_ate_val.item())
-                acc_t_val_list.append(acc_t_val)
                 pehe_tst_list.append(pehe_tst.item())
                 mae_ate_tst_list.append(mae_ate_tst.item())
-                acc_t_tst_list.append(acc_t_tst)
 
             print('Epoch: {:04d}'.format(k + 1),
                   'loss_train: {:.4f}'.format(loss_train.item()),
-                  'acc_train: {:.4f}'.format(sum(acc_t_trn_list) / len(acc_t_trn_list)),
                   'ave_pehe_val: {:.4f}'.format(sum(pehe_val_list) / len(pehe_val_list)),
                   'ave_mae_ate_val: {:.4f}'.format(sum(mae_ate_val_list) / len(mae_ate_val_list)),
-                  'acc_t_val: {:.4f}'.format(sum(acc_t_val_list) / len(acc_t_val_list)),
                   'ave_pehe_tst: {:.4f}'.format(sum(pehe_tst_list) / len(pehe_tst_list)),
                   'ave_mae_ate_tst: {:.4f}'.format(sum(mae_ate_tst_list) / len(mae_ate_tst_list)),
-                  'acc_t_tst: {:.4f}'.format(sum(acc_t_tst_list) / len(acc_t_tst_list)),
                   'time: {:.4f}s'.format(time.time() - time_begin))
 
             test(X_list, adj_time_list, C_list, Y1_true_list, Y0_true_list, idx_trn_list, idx_tst_list, model, Z_init)
@@ -295,10 +286,8 @@ def test(X_list, adj_time_list, C_list, Y1_true_list, Y0_true_list, idx_trn_list
     # compute the pehe and mae of all the time stamps
     pehe_val_list = []
     mae_ate_val_list = []
-    acc_t_val_list = []
     pehe_tst_list = []
     mae_ate_tst_list = []
-    acc_t_tst_list = []
 
     for select_t in range(T):
         rep = rep_list[select_t]
@@ -323,15 +312,12 @@ def test(X_list, adj_time_list, C_list, Y1_true_list, Y0_true_list, idx_trn_list
 
         pehe_val_list.append(pehe_val.item())
         mae_ate_val_list.append(mae_ate_val.item())
-        acc_t_val_list.append(acc_t_val)
         pehe_tst_list.append(pehe_tst.item())
         mae_ate_tst_list.append(mae_ate_tst.item())
-        acc_t_tst_list.append(acc_t_tst)
 
     print('test results: ',
           'ave_pehe_tst: {:.4f}'.format(sum(pehe_tst_list) / len(pehe_tst_list)),
-          'ave_mae_ate_tst: {:.4f}'.format(sum(mae_ate_tst_list) / len(mae_ate_tst_list)),
-          'ave_acc_t_tst:{:.4f}'.format(sum(acc_t_tst_list) / len(acc_t_tst_list)))
+          'ave_mae_ate_tst: {:.4f}'.format(sum(mae_ate_tst_list) / len(mae_ate_tst_list)))
 
 
 if __name__ == '__main__':
@@ -366,6 +352,6 @@ if __name__ == '__main__':
         test(X_list, adj_time_list, C_list, Y1_true_list, Y0_true_list, idx_trn_list, idx_tst_list, model, Z_init,
              False)
 
-        break  # !!!!!!!!!!!!!
+        break  # if just want to run one experiment
 
     print("Total time elapsed: {:.4f}s".format(time.time() - t_begin))
